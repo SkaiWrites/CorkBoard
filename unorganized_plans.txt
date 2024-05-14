@@ -5,7 +5,7 @@ There are then three primary pieces of this functionality: the literature, the a
 
 The Literature:
 
-The literature will be contained in "posts" (you likely already know what a post is, but i do want to draw attention to the parallels of posting a flyer to a bulletin board [corkboard]). Posts will have the following: required:{ author, at least one: [text content, file content, metatext], content tags [`#untagged` by default], collection tags [`#untagged` by default] }, optional: {likes, comments, reblogs [may not necessarily be called this, but it should be more similar to tumblr reblogs than twitter reposts, so this is the tentative name]}
+The literature will be contained in "posts" (you likely already know what a post is, but i do want to draw attention to the parallels of posting a flyer to a bulletin board [corkboard]). Posts will have the following: required:{ author, at least one: [text content, file content, metatext], content tags [`#untagged` by default], collection tags [`#untagged` by default] }, optional: {interactions: likes, comments, reblogs [may not necessarily be called this, but it should be more similar to tumblr reblogs than twitter reposts, so this is the tentative name]}
 reblogs will not show any of the metatext or collection tags of previous reblogs; they will only show the metatext and collection tags of the current reblog. reblogs may have their own set of content tags, but they will inherit the original content tags by default.
 
 .cbd file type specifically for sharing static Corkboard posts (if a post is to be readable by outside apps like Diem, it should have its own file type so it doesn't get confused for a different type of file. this file type should only be used for sharing a post and should absolutely not be used in the archive, because it would be too easy for people to edit other people's posts that way. instead, part of the cbd file should link back to the archive point where it was found, and the archive should have a way to convert posts in the archive to indiviual cbd files. also yes cbd is a drug, but it's also an abbreviation for Corkboard. i wanted to do .cbp [CorkBoard Post] but that was taken by Code::Blocks and even though they will likely have very little overlap, i wanted to avoid confusion at all costs)
@@ -20,5 +20,26 @@ the archive will be decentralized. every machine running a CorkBoard instance wi
 
 
 The UI:
+mobile and desktop. there should be a default ui, but it should be customizable. like. extremely customizable.
+
+
+
+
+
+Development and Release:
+i think development and release should follow four main stages: core development, closed beta, open beta, full release. we should not move on to a new stage until all the goals of a previous stage have been met and tested.
+
+Core:
+This stage will consist of the development of the core functionality of creating, sending, receiving, and viewing text posts. There should be a standard way to create and access a user account by the end of this stage.
+
+Closed Beta:
+This stage will extend functionality to video, audio, and image embeds within posts, as well as allowing for other file types to be embedded in posts (though without necessarily having native integrations for reading/viewing those files). the archive does not need to be fully decentralized by the end of this stage, but that would be ideal. The ui should be fairly customizable by the end of this stage; at minimum, for mobile there should be left and right handed options (though a full user determined layout with a right handed default would be ideal), there should be a video only post stream option, headline videos should work. there should be a dedicated avenue for moderation by an administrator, but at all stages in release, admin moderation should be limited to only extreme cases; by the end of this stage there should be a way for users to suggest content tags to other users' posts; this should be the primary avenue of moderation, with users being able to accept a suggested content tag by another user, or, by default, appending the tentative content tag to the post with a degree of accuracy relating to the number of people who have suggested the tag and/or the number of people who have identified the suggested tag as incorrect or irrelevent. there should be a way to generate streams of posts based on boolean search methods allowing for primary search criteria consisting of: author, user specific collection tags, content tags [and content tag accuracy]. Additionally, streams may be limited in scope according to secondary search criteria consisting of: [any primary search criteria with a boolean operation to a secondary search criterion], text content [string search. may have to be limited. note that this is already limited in that it doesn't allow a string search of the entire archive], date posted, original posts only [no reblogs], content file types, number of interactions of any type [who am i to judge if someone only wants to see popular stuff?]. Users should be able to save multiple stream criteria so they can determine at any point how they wish to curate their experience.
+
+Open Beta:
+This stage will include implementing Diem and e-commerce integrations [the main reason for this is to allow for a streamlined process by which users may choose to pay other users for their contributions to the archive. we're all artists; we all need to get paid. there will be no native advertising functionality, so all revenue will come from e-commerce integration], fully decentralizing the archive, implementing an audio only post stream and dual audio-text/image post stream options so that users can listen to audio-only posts while viewing non-audio posts,
+
+
+Full Release:
+This stage will primarily consist of developing plug-ins for additional file types to be readable. Otherwise it will just be the requisite maintainance to keep the application usable on various operating systems; if there is some incredible breakthrough in how the internet works and adding support for this breakthrough would fall outside of the scope of requisite maintainance or what can be achieved with a plug-in, then so be it; sometimes platforms die; we don't need a single platform that can do everything forever; it's good to have things that serve a specific purpose (and this is already an ambitiously large project).
 
 
