@@ -50,3 +50,4 @@ Full Release:
 This stage will primarily consist of developing plug-ins for additional file types to be readable. Otherwise it will just be the requisite maintainance to keep the application usable on various operating systems; if there is some incredible breakthrough in how the internet works and adding support for this breakthrough would fall outside of the scope of requisite maintainance or what can be achieved with a plug-in, then so be it; sometimes platforms die; we don't need a single platform that can do everything forever; it's good to have things that serve a specific purpose (and this is already an ambitiously large project).
 
 
+random notes: 4eb7d6 <- very pretty color for showing that a post has been successfully curated
