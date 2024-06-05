@@ -57,6 +57,55 @@ Post
 	Comment_List
 		Comment
 		
-
-
 *footnote: watch/listen statistics should be <Start_Time, End_Time> pairs. No further data should be collected. From these pairs we can calculate total watch/listen time--SUM((End_Time - Start_Time))--as well as generate visual aids to demonstrate which parts were most rewatched/relistened or skipped. This should be sufficient to inform artists as to key moments in their works while protecting the privacy of their audience (not storing *who* watched up to cetain points, rewatched, etc.). When a user presses Play, start time is recorded; when they pause, end time is recorded. If they press Play again without rewinding or skipping, end time is rewritten when they pause again; if they rewind or skip, start/end pair sent to server and new pair created with the new start time. Video/audio automatically pauses when scrolling to next post. start/end pairs sent to server when scrolling to other post, when new pair is created, or when closing out of app.
+
+
+User								//a User can create and interact with Posts
+	Name							//must be unique. Must not end in whatever we decide to use to indicate inactive/deactivated accounts.
+		String
+	Last_Activity
+		Date						//Tracking user activity is a privacy concern, but to ensure the continued operation of the site
+									//(the eternal availability of unique usernames), we must have *some* way of tracking inactivity.
+									// Knowing just the last day a user was active and nothing more is a reasonable compromise.
+	Collection_List
+		Collection
+	Description/Bio
+		String
+	Profile_Picture
+		Image
+	Header_Image
+		Image
+	Theme
+		Background_Color
+		Description_Color
+	Obtained_Patch_List				//list of patches user has been given by other users
+		Patch
+			Vector_Graphic
+			Name
+				String
+			Description
+				String
+			Owner					//the user who created the patch
+				User
+	Offerred_Patch_List				//list of patches user has created that other users may request and be given
+		Patch
+			Vector_Graphic
+			Name
+				String
+			Description
+				String
+			Secondary_Description	//users may find it beneficial to include a secondary description that is only viewable when
+									//looking at a patch directly from their profile as opposed to viewing it from someone else's.
+									//for example, a user may assign prices to patches but not want the price to be the focus of the patch.
+				""
+				String
+			User_List				//list of users who have been given a patch
+				User
+				User DateTime		//DateTime for the date at which the user loses access to a patch.
+	Payment_Method_List				//a list of all the ways that a user accepts payment (Paypal, Cash App, etc.). Stored both so
+		Payment_Method				//users can easily find other user's payment info and pay them, as well as with the intent of
+									//servicing transactions directly in the app without handling transactions ourselves (e.g. if
+									//a user wants to sell patches, some transaction service may be able to integrate with the 
+									//CorkBoard API to allow users to do that without handling each transaction individually,
+									//and we would need to know which transaction services are authorized to do that.)
+	
