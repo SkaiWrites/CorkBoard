@@ -1,0 +1,62 @@
+There are 3 primary things, each with their own attributes: Posts, Users, Collections.
+
+I'm using what i suppose would be considered a modified McKeeman form to indicate how attributes are stored in relation to each other. Just keep in mind these are attributes/data to be stored, not grammar rules. Any attribute with "_List" cotains a (possibly empty) list of its attribute contents.
+
+//for comments
+
+Note: client will not need to render all these attributes at once, so they will not need to receive them all at once
+
+Post
+	Type
+		Addition
+			Content
+				""							//note that a user may curate a post without addition. this will be stored as an addition without content
+				String
+				Image
+				Video
+					Video Watch_Statistics_List		//See footnote*
+				Audio
+					Audio Listen_Statistics_list	//See footnote*
+				Hyperlink					//may be rendered as an embed
+				Other_File
+				String Content
+				Image Content
+				Audio Content
+				Hyperlink Content
+			Metatext
+				""
+				String
+			Tag_List						//Unordered, or at least, order not important
+				Tag
+				Suggested_Tag
+					Tag
+					User					//the user who suggested the tag
+			Collection_List					//Ordered according to Author preference; this allows posts to be rendered according to appropriate collection theme
+				Collection
+			Child_Post_List					//Ordered by Date
+				Post 						//Addition Type only. Comment Type children go in Comment_List
+			Payment_Redirect_List			//If users are to be paid for their posts directly, must be a way to rediret funds to other contributors to the Post
+				User Portion				//List empty by Default; payment directed to Author in full. Otherwise, Portions must sum to 1.
+			Share_Count						//Should not track who shares what, just how much a post has been shared
+				0
+				Positive_Integer
+		Comment
+			Content
+				String
+	Parent
+		Post
+		Null
+	Author
+		User
+	Date
+		DateTime
+	Likes_List
+		Like
+			User
+			Number
+	Comment_List
+		Comment
+		
+
+
+*footnote: watch/listen statistics should be <Start_Time, End_Time> pairs. No further data should be collected. From these pairs we can calculate total watch/listen time--SUM((End_Time - Start_Time))--as well as generate visual aids to demonstrate which parts were most rewatched/relistened or skipped. This should be sufficient to inform artists as to key moments in their works while protecting the privacy of their audience (not storing *who* watched up to cetain points, rewatched, etc.). When a user presses Play, start time is recorded; when they pause, end time is recorded. If they press Play again without rewinding or skipping, end time is rewritten when they pause again; if they rewind or skip, start/end pair sent to server and new pair created with the new start time. Video/audio automatically pauses when scrolling to next post. start/end pairs sent to server when scrolling to other post, when new pair is created, or when closing out of app.
