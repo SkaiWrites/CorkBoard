@@ -119,6 +119,10 @@ User:								//a User can create and interact with Posts
 									//a user wants to sell patches, some transaction service may be able to integrate with the 
 									//CorkBoard API to allow users to do that without handling each transaction individually,
 									//and we would need to know which transaction services are authorized to do that.)
+	Notification_List				//users should be able to receive notifications if they want to
+		Interaction_Type DateTime	//Obviously at some point we will have to group notifications together or delete them according
+									//according to how many there are. But i am not prioritizing notifications so my thoughts are
+									//not entirely developed here just yet
 
 
 Collection:
