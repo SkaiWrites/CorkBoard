@@ -69,6 +69,12 @@ User								//a User can create and interact with Posts
 									// Knowing just the last day a user was active and nothing more is a reasonable compromise.
 	Collection_List
 		Collection
+	User_Following_List				//List of Users that a user follows. Visible only to the User themself.
+		User
+	Follower_List					//List of Users who follow a User. Visible only to the User themself. User may choose to make the size of this list public
+		User
+	Collection_Following_List		//List of other Users' collections that a User follows.
+		Collection
 	Description/Bio
 		String
 	Profile_Picture
