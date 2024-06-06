@@ -158,7 +158,8 @@ Collection:
 										//may get eye strain from too many colors or who don't wish to see the beautiful phallic
 										//columns you drew will still be able to see something, should they wish.
 										//I would recommend Users develop a single-color (transparent background), All Ages Margin Art
-										//before moving onto anything more complex or mature, in order for the most people as possible to see it
+										//before moving onto anything more complex or mature, so the most people as possible can see it
+										//List ordered according to Owner preference for which art would be preferable to display
 				Age_Rating
 					18+
 					All_Ages
