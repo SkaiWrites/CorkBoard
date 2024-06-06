@@ -1,17 +1,18 @@
 There are 3 primary things, each with their own attributes: Posts, Users, Collections.
 
-I'm using what i suppose would be considered a modified McKeeman form to indicate how attributes are stored in relation to each other. Just keep in mind these are attributes/data to be stored, not grammar rules. Any attribute with "_List" cotains a (possibly empty) list of its attribute contents.
+I'm using what i suppose would be considered a modified McKeeman form to indicate how attributes are stored in relation to each other. Just keep in mind these are attributes/data to be stored, not grammar rules. Any attribute with "_List" cotains a (possibly empty) list of its attribute contents. A ":" after an attribute name indicates that it must possess all of the attributes indented below it. A lack of a ":" indicates that the attribute may possess only one of the single-line attributes below it. a " " (space) between attributes of the same line indicates that both attributes must be present to fulfill the needs of the parent attribute. "" is the null or empty attribute.
 
 //for comments
 
 Note: client will not need to render all these attributes at once, so they will not need to receive them all at once
 
-Post
+Post:
 	Type
-		Addition
+		Addition:
 			Content
 				""							//note that a user may curate a post without addition. this will be stored as an addition without content
 				String
+				MarkDown					//should a user want custom formatted text
 				Image
 				Video
 					Video Watch_Statistics_List		//See footnote*
@@ -20,6 +21,7 @@ Post
 				Hyperlink					//may be rendered as an embed
 				Other_File
 				String Content
+				MarkDown Content
 				Image Content
 				Audio Content
 				Hyperlink Content
@@ -28,7 +30,8 @@ Post
 				String
 			Tag_List						//Unordered, or at least, order not important
 				Tag
-				Suggested_Tag
+					String
+				Suggested_Tag:
 					Tag
 					User					//the user who suggested the tag
 			Collection_List					//Ordered according to Author preference; this allows posts to be rendered according to appropriate collection theme
@@ -36,7 +39,7 @@ Post
 			Child_Post_List					//Ordered by Date
 				Post 						//Addition Type only. Comment Type children go in Comment_List
 			Payment_Redirect_List			//If users are to be paid for their posts directly, must be a way to rediret funds to other contributors to the Post
-				User Portion				//List empty by Default; payment directed to Author in full. Otherwise, Portions must sum to 1.
+				User Positive_Float					//List empty by Default; payment directed to Author in full. Otherwise, Floats must sum to 1.
 			Share_Count						//Should not track who shares what, just how much a post has been shared
 				0
 				Positive_Integer
@@ -52,15 +55,15 @@ Post
 		DateTime
 	Likes_List
 		Like
-			User
-			Number
+			User							//Users may choose to anonymously like a Post; this will attribute their like to a single "anonymous" user
+			Positive_Integer				//Users may like a post multiple times (it is silly to assume one can only enjoy a work of art once)
 	Comment_List
 		Comment
 		
 *footnote: watch/listen statistics should be <Start_Time, End_Time> pairs. No further data should be collected. From these pairs we can calculate total watch/listen time--SUM((End_Time - Start_Time))--as well as generate visual aids to demonstrate which parts were most rewatched/relistened or skipped. This should be sufficient to inform artists as to key moments in their works while protecting the privacy of their audience (not storing *who* watched up to cetain points, rewatched, etc.). When a user presses Play, start time is recorded; when they pause, end time is recorded. If they press Play again without rewinding or skipping, end time is rewritten when they pause again; if they rewind or skip, start/end pair sent to server and new pair created with the new start time. Video/audio automatically pauses when scrolling to next post. start/end pairs sent to server when scrolling to other post, when new pair is created, or when closing out of app.
 
 
-User								//a User can create and interact with Posts
+User:								//a User can create and interact with Posts
 	Name							//must be unique. Must not end in whatever we decide to use to indicate inactive/deactivated accounts.
 		String
 	Last_Activity
@@ -69,23 +72,25 @@ User								//a User can create and interact with Posts
 									// Knowing just the last day a user was active and nothing more is a reasonable compromise.
 	Collection_List
 		Collection
-	User_Following_List				//List of Users that a user follows. Visible only to the User themself.
+	User_Following_List:			//List of Users that a user follows. Visible only to the User themself.
 		User
+		Visible_Boolean				//User may choose to make portions of this list publicly viewable
 	Follower_List					//List of Users who follow a User. Visible only to the User themself. User may choose to make the size of this list public
 		User
-	Collection_Following_List		//List of other Users' collections that a User follows.
+	Collection_Following_List:		//List of other Users' collections that a User follows
 		Collection
+		Visible_Boolean				//whether other users can see that a user follows the associated list
 	Description/Bio
 		String
 	Profile_Picture
 		Image
 	Header_Image
 		Image
-	Theme
+	Theme:
 		Background_Color
 		Description_Color
 	Obtained_Patch_List				//list of patches user has been given by other users
-		Patch
+		Patch:
 			Vector_Graphic
 			Name
 				String
@@ -94,15 +99,15 @@ User								//a User can create and interact with Posts
 			Owner					//the user who created the patch
 				User
 	Offerred_Patch_List				//list of patches user has created that other users may request and be given
-		Patch
+		Patch:
 			Vector_Graphic
 			Name
 				String
 			Description
 				String
-			Secondary_Description	//users may find it beneficial to include a secondary description that is only viewable when
-									//looking at a patch directly from their profile as opposed to viewing it from someone else's.
-									//for example, a user may assign prices to patches but not want the price to be the focus of the patch.
+			Secondary_Description	//users may find it beneficial to include a secondary description that is only viewable when looking
+									//at a patch directly from their patch list as opposed to viewing it from someone else's profile. for example,
+									//a user may assign prices to patches but not want the price to be the focus of the patch when seen organically.
 				""
 				String
 			User_List				//list of users who have been given a patch
@@ -114,4 +119,69 @@ User								//a User can create and interact with Posts
 									//a user wants to sell patches, some transaction service may be able to integrate with the 
 									//CorkBoard API to allow users to do that without handling each transaction individually,
 									//and we would need to know which transaction services are authorized to do that.)
-	
+
+
+Collection:
+	Name
+		String
+	Owner
+		User
+	Contributor_List				//Optional. Some Users may wish for their collections to be curated by a community
+		User Contributor_Permissions
+	Post_List						//Ordered by Date by default, but Owner/Contributors may alter the order if they wish
+		Post
+	Contributor_Permissions			//Boolean values corresponding to what Contributors are allowed to do to a Collection
+		Add_Post Remove_Post Re-order_Posts Change_Theme
+	Follower_List					//Who follows a collection. By default only Owner can view list, but they may choose to make its size publicly viewable
+		User
+	Header_Image
+		Image
+	Theme:
+		Default_Text_Color			//may be overridden within a Post
+		Metatext_Text_Color
+		Metatext_Background_Color
+		Top_Interaction_Bar_Color
+		Bottom_Interaction_Bar_Color
+		Post_Background_Color
+		Button_Color:
+			Default_Color
+			Tags_Pressed_Color			//need different color to indicate that a button has been pressed/button action has been performed
+			Down_Pressed_Color
+			Share_Pressed_Color
+			Curate_Pressed_Color
+			Comment_Pressed_Color
+			Like_Pressed_Color
+		Margin_Art_List
+			Margin_Art:					//Similar to marginal art in old, handwritten manuscripts. For accessibility purposes, Users
+										//will be able to decline to see margin art depending on number of colors and age rating,
+										//which is why Users will be able to make multiple margin art options, so that Users who
+										//may get eye strain from too many colors or who don't wish to see the beautiful phallic
+										//columns you drew will still be able to see something, should they wish.
+										//I would recommend Users develop a single-color (transparent background), All Ages Margin Art
+										//before moving onto anything more complex or mature, in order for the most people as possible to see it
+				Age_Rating
+					18+
+					All_Ages
+					Potentially_18+		//Because sometimes you're just not sure.
+										//more likely to be called "Potentially NSFW" but then i don't know what to call Age_Rating
+				Top						//Side Graphics should be rectangles with one side equivalent to the side of a corner graphic
+										//and the other side equivalent to a whole number (likely just 2 or maaaaybe 3) of a corner graphic side
+					Vector_Graphic
+				Bottom
+					Vector_Graphic
+				Left
+					Vector_Graphic
+				Right
+					Vector_Graphic
+				Top_Right_Corner		//Corner Graphics should be square
+					Vector_Graphic
+				Top_Left_Corner
+					Vector_Graphic
+				Bottom_Right_Corner
+					Vector_Graphic
+				Bottom_Left_Corner
+					Vector_Graphic
+				Colors_List				//List of colors that may be used in any of the vector graphics
+					Color
+				
+			
