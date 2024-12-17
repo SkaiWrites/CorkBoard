@@ -11,20 +11,9 @@ Post:
 		Addition:
 			Content
 				""							//note that a user may curate a post without addition. this will be stored as an addition without content
-				String
-				MarkDown					//should a user want custom formatted text
-				Image
-				Video
-					Video Watch_Statistics_List		//See footnote*
-				Audio
-					Audio Listen_Statistics_list	//See footnote*
-				Hyperlink					//may be rendered as an embed
-				Other_File
-				String Content
-				MarkDown Content
-				Image Content
-				Audio Content
-				Hyperlink Content
+				File
+					File Statistics_List		//See footnote*
+				File Content				//content some collection of files to be rendered on machine according to type
 			Metatext
 				""
 				String
@@ -43,10 +32,15 @@ Post:
 			Share_Count						//Should not track who shares what, just how much a post has been shared
 				0
 				Positive_Integer
+			Previous						// Link to most recent previous addition regardless of content
+				Post
+				Null
+
 		Comment
 			Content
 				String
-	Parent
+	Parent									// if addition: Link to most recent previous addition with content. 
+											// if comment: link to most recent previous addition regardless of content
 		Post
 		Null
 	Author

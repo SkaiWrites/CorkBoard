@@ -1,0 +1,6 @@
+{
+	"Type" : "Addition",
+	"Content" : ["file.txt", "image.png"],
+	"Metatext" : "string",
+	
+}
